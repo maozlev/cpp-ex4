@@ -7,15 +7,28 @@
 namespace pandemic{
 
     class Board{
-
-        static std::map <City , vector<City>> connections;
-        static std::map <City , Color> colors;
-        static std::map <City , int> infection_level;
         
         public:
 
-            Board(){}
-            ~Board(){}
+        Board();
+        
+        std::map <City , std::vector<City>> connections;
+        std::map <City , Color> colors;
+        std::map <City , int> infection_level;
+        std::map <City , bool> cards;
+
+        // ~Board();
+
+        
+        
+
+        int& operator[] (const City city);
+
+        
+
+        
+
+            
 
 
 
