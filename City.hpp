@@ -4,7 +4,6 @@
 #include <iostream>
 
 enum City{
-
     Algiers,
     Atlanta,
     Baghdad,

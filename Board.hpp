@@ -23,6 +23,7 @@ namespace pandemic{
         
 
         int& operator[] (const City city);
+        bool is_clean();
 
         
 
