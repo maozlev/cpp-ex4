@@ -114,15 +114,19 @@ namespace pandemic{
         map <City , int> infection_levels;
         map <City , bool> card;
         map <City , bool> research_labs;
-        map <City , bool> cures;
         int t = City::Algiers;
         while(t <= City::Washington){
                 infection_levels.insert({(City)t, 0});
                 card.insert({(City)t, false});
                 research_labs.insert({(City)t, false});
-                cures.insert({(City)t, false});
                 t++; 
         }
+
+        map <Color , bool> cures{
+        {Color::Black, false},
+        {Color::Blue, false},
+        {Color::Red, false},
+        {Color::Yellow, false},};
         
         this->connections = connection;
         this-> colors = color;

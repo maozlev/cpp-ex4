@@ -17,7 +17,7 @@ namespace pandemic{
         std::map <City , int> infection_level;
         std::map <City , bool> cards;
         std::map <City , bool> research_lab;
-        std::map <City , bool> cure;
+        std::map <Color , bool> cure;
 
 
 

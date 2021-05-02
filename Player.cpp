@@ -11,11 +11,13 @@ using namespace std;
 
 namespace pandemic{
 
-    Player::Player(Board board, City city){
+    Player::Player(Board board, City city, string roles){
+        string st = roles;
         std::vector <City> cards_of_playerr;
         this->current_board = board;
         this->currennt_city = city;
         this->cards_of_player = cards_of_playerr;
+        // this->role = roles;
     }
 
     Player& Player::drive(City city){
@@ -88,7 +90,8 @@ namespace pandemic{
         return *this;
     }
 
-    Player& Player::build(City city){
+    Player& Player::build(){
+        City city = this->currennt_city;
         string st = ToString(city);
         if(this->current_board.research_lab.at(city) == true){
             cout<<"you already have a lab in the city: "<<st<<endl;
@@ -113,48 +116,55 @@ namespace pandemic{
         throw std::invalid_argument{"you dont have card of this city: "+st};
     }
 
-    Player& Player::discover_cure(City city){
-        string st = ToString(city);
-        if(this->current_board.research_lab.at(city) == true){
-            Color check = this->current_board.colors.at(city);
-            string st1 = ToString(check);
-            int need_to_be_five = get_num_of_color(check);
-            cout<<need_to_be_five<<endl;
-            if(need_to_be_five>=5){
-                this->current_board.cure.at(city) = true;
-                cout<<"cure discovered to color "<<st1<<" in city: "<<st<<endl;
-                //erase cards:
-                for (unsigned int i = 0; i < this->cards_of_player.size(); i++){
-                    if(this->current_board.colors.at(this->cards_of_player.at(i)) == check){
-                        this->cards_of_player.erase(this->cards_of_player.begin()+i);
-                    }
-                }
-                return *this;
+    Player& Player::discover_cure(Color color){
+        string st = ToString(this->currennt_city);
+        string c = ToString(color);
+        if(this->current_board.cure.at(color) == false){
+            if(this->current_board.research_lab.at(this->currennt_city) == false){
+                throw logic_error{st+" have no lab!"};
             }
-            cout<<"you dont have 5 cards with the "<<st1<<" color "<<endl;
-            return *this;
+            int num_of_color_card = get_num_of_color(color);
+            if(num_of_color_card<5){
+                throw logic_error{"you not have enoght "+c+" cards"};
+            }
+            int sum=0;
+            for (unsigned int i = 0; i < this->cards_of_player.size(); i++){
+                if(sum == 5){
+                    break;
+                }
+                if(this->current_board.colors.at(this->cards_of_player.at(i)) == color){
+                    this->cards_of_player.erase(this->cards_of_player.begin() + i);
+                    sum++;
+                }
+            }
+            this->current_board.cure.at(color) = true;
+            cout<<"drop: "<<sum<<" cards"<<endl;
         }
-        cout<<"you dont have lab in this city "<<st<<endl;
+        cout<<"discoverd: "<<c<<" cure!"<<endl;
         return *this;
     }
 
     Player& Player::treat(City city){
         string st = ToString(city);
-        if(this->current_board.infection_level.at(city) == 0){
-            throw logic_error{st+" is already clear"};
-        }
-        if(this->current_board.research_lab.at(city) == true){
-            this->current_board.infection_level.at(city) = 0;
+        if(this->currennt_city == city){
+            if(this->current_board.infection_level.at(city) == 0){
+                throw logic_error{st+" is already clear"};
+            }
+            if(this->current_board.research_lab.at(city) == true){
+                this->current_board.infection_level.at(city) = 0;
+                cout<<"update infection level: "<<
+                this->current_board.infection_level.at(city)<<
+                " at: "<<st<<endl;
+                cout<<st<<" is clear"<<endl;
+                return *this;
+            }
+            this->current_board.infection_level.at(city) -= 1;
             cout<<"update infection level: "<<
             this->current_board.infection_level.at(city)<<
             " at: "<<st<<endl;
-            cout<<st<<" is clear"<<endl;
             return *this;
         }
-        this->current_board.infection_level.at(city) -= 1;
-        cout<<"update infection level: "<<
-        this->current_board.infection_level.at(city)<<
-        " at: "<<st<<endl;
+        cout<<"go to the city: "<<st<<endl;
         return *this;
     }
 
