@@ -111,7 +111,6 @@ namespace pandemic{
         {City::Washington , Color::Blue }
         };
 
-        // map <City , int> infection_levels;
         map <City , bool> card;
         map <City , bool> research_labs;
         int t = City::Algiers;
@@ -130,7 +129,7 @@ namespace pandemic{
         
         this->connections = connection;
         this-> colors = color;
-        // this-> infection_level = infection_levels;
+        // this-> infection_level
         this-> cards = card;
         this-> cure = cures;
         this-> research_lab = research_labs;
@@ -140,6 +139,12 @@ namespace pandemic{
     int& Board::operator[] (const City city){
         return this->infection_level.at(city);
     }
+    
+   std::ostream& operator<< (std::ostream& os, const Board board){
+       return cout<<"Board:"<<endl;
+   }
+
+    
 
     bool Board::is_clean(){
         int t = City::Algiers;
@@ -167,6 +172,14 @@ namespace pandemic{
             return true;
         }
         return false;
+    }
+    void Board::remove_cures(){
+        map <Color , bool> cures{
+        {Color::Black, false},
+        {Color::Blue, false},
+        {Color::Red, false},
+        {Color::Yellow, false},};
+        this->cure = cures;
     }  
 
 

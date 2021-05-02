@@ -14,9 +14,6 @@ run: demo1 demo2
 	./demo1
 	./demo2
 
-main: main.o 
-	$(CXX) $(CXXFLAGS) $^ -o main
-
 demo1: Demo1.o $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o demo1
 

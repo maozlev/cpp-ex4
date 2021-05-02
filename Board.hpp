@@ -5,6 +5,8 @@
 #include <map>
 #include <vector>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 namespace pandemic{
 
@@ -28,9 +30,11 @@ namespace pandemic{
         // ~Board();
 
         int& operator[] (const City city);
+        friend std::ostream& operator<< (std::ostream& os, const Board board);
         bool is_clean();
         bool is_neighbors(City a, City b);
         bool card_in_game(City a);
+        void remove_cures();
 
 
     };

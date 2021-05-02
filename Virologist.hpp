@@ -6,9 +6,10 @@
 
 namespace pandemic{
 
-    class Virulogist: public Player {
+    class Virologist: public Player {
 
         public:
+        Virologist(Board& board, City city): Player(board, city, "Virologist"){}  
         Player& treat(City city) override;
     };
 

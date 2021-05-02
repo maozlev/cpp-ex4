@@ -9,7 +9,8 @@ namespace pandemic{
     class Researcher: public Player {
 
         public:
-        Player& fly_direct(City city) override;
+        Researcher(Board& board, City city): Player(board, city, "Researcher"){}
+        Player& discover_cure(Color color) override;
     };
 
 }

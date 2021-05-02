@@ -11,7 +11,7 @@ using namespace std;
 
 namespace pandemic{
 
-    Player::Player(Board board, City city, string roles){
+    Player::Player(Board& board, City city, string roles){
         string st = roles;
         std::vector <City> cards_of_playerr;
         this->current_board = board;
@@ -146,22 +146,21 @@ namespace pandemic{
 
     Player& Player::treat(City city){
         string st = ToString(city);
-        if(this->currennt_city == city){
-            if(this->current_board.infection_level.at(city) == 0){
+        if(currennt_city == city){
+            if(current_board.infection_level.at(city) <= 0){
                 throw logic_error{st+" is already clear"};
-                return *this;
             }
-            if(this->current_board.research_lab.at(city) == true){
-                this->current_board.infection_level.at(city) = 0;
+            if(current_board.research_lab.at(city) == true){
+                current_board[city] = 0;
                 cout<<"update infection level: "<<
-                this->current_board.infection_level.at(city)<<
+                current_board[city]<<
                 " at: "<<st<<endl;
                 cout<<st<<" is clear"<<endl;
                 return *this;
             }
-            this->current_board.infection_level.at(city) -= 1;
+            current_board[city]--;
             cout<<"update infection level: "<<
-            this->current_board.infection_level.at(city)<<
+            current_board[city]<<
             " at: "<<st<<endl;
             return *this;
         }
@@ -190,6 +189,10 @@ namespace pandemic{
             }
         }
             return sum;
+    }
+    int& Player::minus_one(int& x) { 
+        x -= 1;
+        return x; 
     }
 };
        

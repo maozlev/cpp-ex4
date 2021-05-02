@@ -18,12 +18,12 @@ namespace pandemic{
         City currennt_city;
         Board current_board;
 
-        Player(Board board, City city, std::string roles);
+        Player(Board& board, City city, std::string roles);
 
-        Player& drive(City city);
+        virtual Player& drive(City city);
         virtual Player& fly_direct(City city);
-        Player& fly_charter(City city);
-        Player& fly_shuttle(City city);
+        virtual Player& fly_charter(City city);
+        virtual Player& fly_shuttle(City city);
         virtual Player& build();
         virtual Player& discover_cure(Color color);
         virtual Player& treat(City city);
@@ -32,6 +32,7 @@ namespace pandemic{
         void role();
 
         int get_num_of_color(Color color);
+        int& minus_one(int& x);
 
             
         

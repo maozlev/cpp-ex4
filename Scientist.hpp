@@ -7,9 +7,11 @@
 namespace pandemic{
 
     class Scientist: public Player {
+        int n;
 
         public:
-        Player& fly_direct(City city) override;
+        Scientist(Board& board, City city, int num): Player(board, city, "Scientist"), n(num){}
+        Player& discover_cure(Color color) override;
     };
 
 }

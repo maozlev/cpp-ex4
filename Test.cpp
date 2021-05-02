@@ -1,29 +1,45 @@
-/**
- * Demo program for Pandemic exercise - OperationsExpert role
- * 
- * Author: Erel Segal-Halevi
- * Since : 2021-04
- */
+#include "doctest.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <ctime>
+#include <stdexcept>
+#include <string>
+#include <vector>
+#include <stdlib.h>
+#include <time.h>
 
 #include "Board.hpp"
 #include "City.hpp"
 #include "Color.hpp"
-
+#include "Researcher.hpp"
+#include "Scientist.hpp"
+#include "FieldDoctor.hpp"
+#include "GeneSplicer.hpp"
 #include "OperationsExpert.hpp"
+#include "Dispatcher.hpp"
+#include "Medic.hpp"
+#include "Virologist.hpp"
 
 using namespace pandemic;
-
-#include <iostream>
-#include <stdexcept>
 using namespace std;
 
-int main() {
-	Board board;  // Initialize an empty board (with 0 disease cubes in any city).
+TEST_CASE("game scenario 1"){
+
+    Board board;  // Initialize an empty board (with 0 disease cubes in any city).
+	
 	board[City::Kinshasa] = 3;      // put 3 yellow disease cubes in Kinshasa.
+    CHECK(board[City::Kinshasa] == 3);
 	board[City::Kinshasa] = 2;      // change number of disease cubes in Kinshasa to 2.
+    CHECK(board[City::Kinshasa] == 2);
 	board[City::MexicoCity] = 3;    // put 3 yellow disease cubes in MexicoCity
+    CHECK(board[City::MexicoCity] == 3);
 	board[City::HoChiMinhCity] = 1; // put 1 red disease cube in HoChiMinhCity
+    CHECK(board[City::HoChiMinhCity] == 1);
 	board[City::Chicago] = 1;       // put 1 blue disease cube in Chicago
+    CHECK(board[City::Chicago] == 1);
+	board[City::Algiers] = 3;
+    CHECK(board[City::Algiers] == 3);
 
 	OperationsExpert player {board, City::Atlanta};  // initialize an "operations expert" player on the given board, in Atlanta.
 	player.take_card(City::Johannesburg)
@@ -33,14 +49,14 @@ int main() {
 	 .take_card(City::HoChiMinhCity);
 
 
-	/* build action */
+	// // /* build action */
 
 	player.build();  // legal action: you build a research station in Atlanta.
-		// NOTE: you do not have the Atlanta card, so for other roles this would throw an exception.
-		//       But for the OperationsExpert it is legal, since he may build a research station without a card.
+	// // 	// NOTE: you do not have the Atlanta card, so for other roles this would throw an exception.
+	// // 	//       But for the OperationsExpert it is legal, since he may build a research station without a card.
 
 
-	/* drive action */
+	// // /* drive action */
 
 	player.drive(City::Washington);  // legal action: you drive from Atlanta to a connected city.
 	try {
@@ -50,7 +66,7 @@ int main() {
 	}
 
 
-	/* fly_direct action */
+	// // /* fly_direct action */
 
 	player.fly_direct(City::Johannesburg);  // legal action: you discard the Johannesburg card and fly to Johannesburg.
 	try {
@@ -60,7 +76,7 @@ int main() {
 	}
 
 
-	/* treat action */
+	// // /* treat action */
 
 	player.drive(City::Kinshasa);    // legal action: you move from Johannesburg to a connected city.
 	cout << board[City::Kinshasa] << endl; // 2
@@ -80,7 +96,7 @@ int main() {
 	}
 
 
-	/* fly_charter action */
+	// /* fly_charter action */
 
 	player.drive(City::Khartoum)
 	 .fly_charter(City::Sydney);  // legal action: you discard the Khartoum card and fly to Sydney.
@@ -92,7 +108,7 @@ int main() {
 	}
 
 
-	/* build action */
+	// /* build action */
 
 	player.drive(City::LosAngeles);  // legal action: note that LosAngeles is connected to Sydney.
 	player.build();     // legal action: build a research station in LosAngeles.
@@ -152,4 +168,3 @@ int main() {
 	cout << board << endl;  // prints the board in any reasonable format.
 	cout << board.is_clean() << endl;  // prints "1" - the board is clean - congratulations!!! You treated all diseases!!!
 }
-
