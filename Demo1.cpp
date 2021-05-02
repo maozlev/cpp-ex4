@@ -27,77 +27,77 @@ int main() {
 	board[City::HoChiMinhCity] = 1; // put 1 red disease cube in HoChiMinhCity
 	board[City::Chicago] = 1;       // put 1 blue disease cube in Chicago
 
-	// OperationsExpert player {board, City::Atlanta};  // initialize an "operations expert" player on the given board, in Atlanta.
-	// player.take_card(City::Johannesburg)
-	//  .take_card(City::Khartoum)
-	//  .take_card(City::SaoPaulo)
-	//  .take_card(City::BuenosAires)
-	//  .take_card(City::HoChiMinhCity);
+	OperationsExpert player {board, City::Atlanta};  // initialize an "operations expert" player on the given board, in Atlanta.
+	player.take_card(City::Johannesburg)
+	 .take_card(City::Khartoum)
+	 .take_card(City::SaoPaulo)
+	 .take_card(City::BuenosAires)
+	 .take_card(City::HoChiMinhCity);
 
 
 	// /* build action */
 
-	// player.build();  // legal action: you build a research station in Atlanta.
+	player.build();  // legal action: you build a research station in Atlanta.
 	// 	// NOTE: you do not have the Atlanta card, so for other roles this would throw an exception.
 	// 	//       But for the OperationsExpert it is legal, since he may build a research station without a card.
 
 
 	// /* drive action */
 
-	// player.drive(City::Washington);  // legal action: you drive from Atlanta to a connected city.
-	// try {
-	// 	player.drive(City::Madrid);  // illegal action: Madrid is not connected to Washington.
-	// } catch (const exception& ex) {
-	//  	cout << "   caught exception: " << ex.what() << endl;  // prints a meaningful error message.
-	// }
+	player.drive(City::Washington);  // legal action: you drive from Atlanta to a connected city.
+	try {
+		player.drive(City::Madrid);  // illegal action: Madrid is not connected to Washington.
+	} catch (const exception& ex) {
+	 	cout << "   caught exception: " << ex.what() << endl;  // prints a meaningful error message.
+	}
 
 
 	// /* fly_direct action */
 
-	// player.fly_direct(City::Johannesburg);  // legal action: you discard the Johannesburg card and fly to Johannesburg.
-	// try {
-	// 	player.fly_direct(City::Taipei);  // illegal action: you do not have the card of Taipei.
-	// } catch (const exception& ex) {
-	//  	cout << "   caught exception: " << ex.what() << endl;  // prints a meaningful error message.
-	// }
+	player.fly_direct(City::Johannesburg);  // legal action: you discard the Johannesburg card and fly to Johannesburg.
+	try {
+		player.fly_direct(City::Taipei);  // illegal action: you do not have the card of Taipei.
+	} catch (const exception& ex) {
+	 	cout << "   caught exception: " << ex.what() << endl;  // prints a meaningful error message.
+	}
 
 
 	// /* treat action */
 
-	// player.drive(City::Kinshasa);    // legal action: you move from Johannesburg to a connected city.
-	// cout << board[City::Kinshasa] << endl; // 2
-	// player.treat(City::Kinshasa);    // legal action: you remove 1 disease cube from current city (1 cube remains).
-	// cout << board[City::Kinshasa] << endl; // 1
-	// player.treat(City::Kinshasa);    // legal action: you remove 1 disease cube from current city (0 cubes remain).
-	// cout << board[City::Kinshasa] << endl; // 0
-	// try {
-	// 	player.treat(City::Kinshasa);  // illegal action: no more cubes remain in Kinshasa.
-	// } catch (const exception& ex) {
-	//  	cout << "   caught exception: " << ex.what() << endl;  // prints a meaningful error message.
-	// }
-	// try {
-	// 	player.treat(City::Washington);  // illegal action: you are not in Washington.
-	// } catch (const exception& ex) {
-	//  	cout << "   caught exception: " << ex.what() << endl;  // prints a meaningful error message.
-	// }
+	player.drive(City::Kinshasa);    // legal action: you move from Johannesburg to a connected city.
+	cout << board[City::Kinshasa] << endl; // 2
+	player.treat(City::Kinshasa);    // legal action: you remove 1 disease cube from current city (1 cube remains).
+	cout << board[City::Kinshasa] << endl; // 1
+	player.treat(City::Kinshasa);    // legal action: you remove 1 disease cube from current city (0 cubes remain).
+	cout << board[City::Kinshasa] << endl; // 0
+	try {
+		player.treat(City::Kinshasa);  // illegal action: no more cubes remain in Kinshasa.
+	} catch (const exception& ex) {
+	 	cout << "   caught exception: " << ex.what() << endl;  // prints a meaningful error message.
+	}
+	try {
+		player.treat(City::Washington);  // illegal action: you are not in Washington.
+	} catch (const exception& ex) {
+	 	cout << "   caught exception: " << ex.what() << endl;  // prints a meaningful error message.
+	}
 
 
 	// /* fly_charter action */
 
-	// player.drive(City::Khartoum)
-	//  .fly_charter(City::Sydney);  // legal action: you discard the Khartoum card and fly to Sydney.
+	player.drive(City::Khartoum)
+	 .fly_charter(City::Sydney);  // legal action: you discard the Khartoum card and fly to Sydney.
 
-	// try {
-	// 	player.fly_charter(City::Seoul);  // illegal action: you do not have the Sydney card (the card of the city you are in).
-	// } catch (const exception& ex) {
-	//  	cout << "   caught exception: " << ex.what() << endl;  // prints a meaningful error message.
-	// }
+	try {
+		player.fly_charter(City::Seoul);  // illegal action: you do not have the Sydney card (the card of the city you are in).
+	} catch (const exception& ex) {
+	 	cout << "   caught exception: " << ex.what() << endl;  // prints a meaningful error message.
+	}
 
 
 	// /* build action */
 
-	// player.drive(City::LosAngeles);  // legal action: note that LosAngeles is connected to Sydney.
-	// player.build();     // legal action: build a research station in LosAngeles.
+	player.drive(City::LosAngeles);  // legal action: note that LosAngeles is connected to Sydney.
+	player.build();     // legal action: build a research station in LosAngeles.
 	// 	// NOTE: you do not have the LosAngeles card, so for other roles this would throw an exception.
 	// 	//       But for the OperationsExpert it is legal, since he may build a research station without a card.
 		

@@ -149,6 +149,7 @@ namespace pandemic{
         if(this->currennt_city == city){
             if(this->current_board.infection_level.at(city) == 0){
                 throw logic_error{st+" is already clear"};
+                return *this;
             }
             if(this->current_board.research_lab.at(city) == true){
                 this->current_board.infection_level.at(city) = 0;

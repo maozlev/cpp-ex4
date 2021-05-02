@@ -111,12 +111,12 @@ namespace pandemic{
         {City::Washington , Color::Blue }
         };
 
-        map <City , int> infection_levels;
+        // map <City , int> infection_levels;
         map <City , bool> card;
         map <City , bool> research_labs;
         int t = City::Algiers;
         while(t <= City::Washington){
-                infection_levels.insert({(City)t, 0});
+                this->infection_level.insert({(City)t, 0});
                 card.insert({(City)t, false});
                 research_labs.insert({(City)t, false});
                 t++; 
@@ -130,7 +130,7 @@ namespace pandemic{
         
         this->connections = connection;
         this-> colors = color;
-        this-> infection_level = infection_levels;
+        // this-> infection_level = infection_levels;
         this-> cards = card;
         this-> cure = cures;
         this-> research_lab = research_labs;
@@ -138,7 +138,7 @@ namespace pandemic{
 
     
     int& Board::operator[] (const City city){
-        return infection_level.at(city);
+        return this->infection_level.at(city);
     }
 
     bool Board::is_clean(){

@@ -1,3 +1,4 @@
+#pragma once
 #include "Color.hpp"
 #include "City.hpp"
 #include "Board.hpp"
