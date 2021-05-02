@@ -10,6 +10,7 @@
 #include "Color.hpp"
 
 #include "OperationsExpert.hpp"
+#include "Player.hpp"
 
 using namespace pandemic;
 
@@ -19,17 +20,13 @@ using namespace std;
 
 int main() {
 	Board board;  // Initialize an empty board (with 0 disease cubes in any city).
-	cout<<board.colors.at(City::SaoPaulo)<<endl;
-	cout<<board.is_clean()<<endl;
+	// cout<<board.colors.at(City::SaoPaulo)<<endl;
+	// cout<<board.is_clean()<<endl;
 	board[City::Kinshasa] = 3;      // put 3 yellow disease cubes in Kinshasa.
 	board[City::Kinshasa] = 2;      // change number of disease cubes in Kinshasa to 2.
 	board[City::MexicoCity] = 3;    // put 3 yellow disease cubes in MexicoCity
 	board[City::HoChiMinhCity] = 1; // put 1 red disease cube in HoChiMinhCity
 	board[City::Chicago] = 1;       // put 1 blue disease cube in Chicago
-
-	cout<<board.is_clean()<<endl;
-
-	
 
 	// OperationsExpert player {board, City::Atlanta};  // initialize an "operations expert" player on the given board, in Atlanta.
 	// player.take_card(City::Johannesburg)

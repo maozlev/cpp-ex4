@@ -1,5 +1,3 @@
-#include "Color.hpp"
-#include "City.hpp"
 #include "Board.hpp"
 
 #include <map>
@@ -11,8 +9,7 @@ using namespace std;
 namespace pandemic{
 
     Board::Board(){
-
-
+        
     map <City , vector<City>> connection{
         {City::Algiers, {City::Madrid, City::Paris, City::Istanbul, City::Cairo}},
         {City::Atlanta, {City::Chicago, City::Miami, City::Washington}},
@@ -116,10 +113,14 @@ namespace pandemic{
 
         map <City , int> infection_levels;
         map <City , bool> card;
+        map <City , bool> research_labs;
+        map <City , bool> cures;
         int t = City::Algiers;
         while(t <= City::Washington){
                 infection_levels.insert({(City)t, 0});
                 card.insert({(City)t, false});
+                research_labs.insert({(City)t, false});
+                cures.insert({(City)t, false});
                 t++; 
         }
         
@@ -127,6 +128,8 @@ namespace pandemic{
         this-> colors = color;
         this-> infection_level = infection_levels;
         this-> cards = card;
+        this-> cure = cures;
+        this-> research_lab = research_labs;
     }
 
     
@@ -143,7 +146,24 @@ namespace pandemic{
             t++;
         }
         return true;
-    }   
+    }
+
+    bool Board::is_neighbors(City a, City b){
+        int t = b;
+        for (size_t i = 0; i < connections.at(a).size(); i++){
+            if(connections.at(a).at(i) == t){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool Board::card_in_game(City a){
+        if(cards.at(a) == true){
+            return true;
+        }
+        return false;
+    }  
 
 
 }
