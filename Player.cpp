@@ -7,15 +7,15 @@
 #include <stdexcept>
 
 
-
+const int min_card_to_cure = 5;
 using namespace std;
 
 namespace pandemic{
 
-    Player::Player(Board& board, City city){
+    Player::Player(Board& board, City city):
+    current_board(board), currennt_city(city)
+    {
         std::vector <City> cards_of_playerr;
-        this->current_board = board;
-        this->currennt_city = city;
         this->cards_of_player = cards_of_playerr;
     } 
 
@@ -31,7 +31,7 @@ namespace pandemic{
 
     Player& Player::fly_direct(City city){
         string st = ToString(city);
-        if(this->cards_of_player.size() == 0){
+        if(this->cards_of_player.empty()){
             throw std::invalid_argument{"you dont have any cards"};
         }
         unsigned int t = 0;
@@ -54,7 +54,7 @@ namespace pandemic{
         string st = ToString(city);
         string st1 = ToString(need_to_drop);
         unsigned int t = 0;
-        if(this->cards_of_player.size() == 0){
+        if(this->cards_of_player.empty()){
             throw std::invalid_argument{"you dont have any cards"};
         }
         while(t < this->cards_of_player.size()){
@@ -92,11 +92,11 @@ namespace pandemic{
     Player& Player::build(){
         City city = this->currennt_city;
         string st = ToString(city);
-        if(this->current_board.research_lab.at(city) == true){
+        if(this->current_board.research_lab.at(city)){
             cout<<"you already have a lab in the city: "<<st<<endl;
             return *this;
         }
-        if(this->cards_of_player.size() == 0){
+        if(this->cards_of_player.empty()){
             throw std::invalid_argument{"you dont have any cards"};
             return *this;
         }
@@ -118,18 +118,18 @@ namespace pandemic{
     Player& Player::discover_cure(Color color){
         string st = ToString(this->currennt_city);
         string c = ToString(color);
-        if(this->current_board.cure.at(color) == false){
-            if(this->current_board.research_lab.at(this->currennt_city) == false){
+        if(!this->current_board.cure.at(color)){
+            if(!this->current_board.research_lab.at(this->currennt_city)){
                 throw logic_error{st+" have no lab!"};
             }
             int num_of_color_card = get_num_of_color(color);
-            if(num_of_color_card<5){
+            if(num_of_color_card < min_card_to_cure){
                 throw logic_error{"you dont have enough "+c+" cards"};
             }
             int sum=0;
             unsigned int i = 0;
-            while(1){
-                if(sum == 5){
+            while(true){
+                if(sum == min_card_to_cure){
                     break;
                 }
                 if(this->current_board.colors.at(this->cards_of_player.at(i)) == color){
@@ -152,8 +152,9 @@ namespace pandemic{
             if(current_board.infection_level.at(city) <= 0){
                 throw logic_error{st+" is already clear"};
             }
-            if(current_board.cure.at(current_board.colors.at(city)) == true){
-                current_board[city] = 0;
+            if(current_board.cure.at(current_board.colors.at(city))){
+                // this->current_board[city] = 0;
+                this->current_board.infection_level.at(city) = 0;
                 cout<<"update infection level: "<<
                 current_board[city]<<
                 " at: "<<st<<endl;
@@ -192,9 +193,6 @@ namespace pandemic{
         }
             return sum;
     }
-    int& Player::minus_one(int& x) { 
-        x -= 1;
-        return x; 
-    }
+    
 };
        

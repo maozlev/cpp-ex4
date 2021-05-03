@@ -10,18 +10,9 @@
 using namespace std;
 namespace pandemic{
 
-    // Player::Medic(Board& board, City city, string roles){
-    //     string st = roles;
-    //     std::vector <City> cards_of_playerr;
-    //     this->current_board = board;
-    //     this->currennt_city = city;
-    //     this->cards_of_player = cards_of_playerr;
-    //     // this->role = roles;
-    // }
-
     Player& Medic::fly_direct(City city){
         string st = ToString(city);
-        if(this->cards_of_player.size() == 0){
+        if(this->cards_of_player.empty()){
             throw std::invalid_argument{"you dont have any cards"};
         }
         unsigned int t = 0;
@@ -47,7 +38,7 @@ namespace pandemic{
         string st = ToString(city);
         string st1 = ToString(need_to_drop);
         unsigned int t = 0;
-        if(this->cards_of_player.size() == 0){
+        if(this->cards_of_player.empty()){
             throw std::invalid_argument{"you dont have any cards"};
         }
         while(t < this->cards_of_player.size()){
@@ -104,7 +95,7 @@ namespace pandemic{
             if(current_board.infection_level.at(city) <= 0){
                 throw logic_error{st+" is already clear"};
             }
-            if(current_board.research_lab.at(city) == true){
+            if(current_board.research_lab.at(city)){
                 current_board[city] = 0;
                 cout<<"update infection level: "<<
                 current_board[city]<<
@@ -112,7 +103,7 @@ namespace pandemic{
                 cout<<st<<" is clear"<<endl;
                 return *this;
             }
-            if(this->current_board.cure.at(this->current_board.colors.at(city)) == true){
+            if(this->current_board.cure.at(this->current_board.colors.at(city))){
                 current_board[city] = 0;
                 cout<<"update infection level: "<<
                 current_board[city]<<

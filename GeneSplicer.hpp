@@ -14,8 +14,9 @@ namespace pandemic{
         GeneSplicer(Board& board, City city): Player(board, city){}  
         Player& discover_cure(Color color) override;
         std::string role() override{
-            return "GeneSplicer";
-            }
+            std::string city = ToString(Player::currennt_city);
+            return "GeneSplicer. and locate at: "+city;
+        }
         
     };
 

@@ -66,7 +66,9 @@ TEST_CASE("game scenario 0: OperationsExpert"){ // check all function
 	CHECK_NOTHROW(p.discover_cure(Color::Yellow));
 	CHECK_NOTHROW(cout<<p.role()<<endl);
 	CHECK_NOTHROW(p.drive(MexicoCity));
+	// cout<<board[City::MexicoCity]<<endl;
 	CHECK_NOTHROW(p.treat(MexicoCity));
+	// cout<<board[City::MexicoCity]<<endl;
 	CHECK(board[City::MexicoCity] == 0);
 	CHECK_NOTHROW(p.fly_direct(City::Cairo));
 	CHECK_NOTHROW(p.treat(City::Cairo));
@@ -75,6 +77,8 @@ TEST_CASE("game scenario 0: OperationsExpert"){ // check all function
 	CHECK(board[City::Cairo] == 1);
 	CHECK_NOTHROW(p.treat(City::Cairo));
 	CHECK(board[City::Cairo] == 0);
+	cout<<"test some output"<<endl;
+	cout<<board<<endl;
 	cout<<endl;
 	cout<<"end scenario 0"<<endl;
 	cout<<endl;
@@ -115,15 +119,57 @@ TEST_CASE("game scenario 2: Scientist"){ // check only his inheribate function
 	p3.take_card(City::Sydney);
 	p3.build();
 	CHECK_NOTHROW(p3.discover_cure(Color::Red));
-	CHECK_THROWS(p2.discover_cure(Color::Red));
-	p2.take_card(City::HoChiMinhCity);
-	p2.build();
-	p2.take_card(City::HoChiMinhCity);
-	CHECK_THROWS(p2.discover_cure(Color::Red));
-	p2.take_card(City::Osaka);
 	CHECK_NOTHROW(p2.discover_cure(Color::Red));
-
 	cout<<endl;
 	cout<<"end scenario 2"<<endl;
+	cout<<endl;
+}
+
+TEST_CASE("game scenario 3: Researcher"){
+	Board board3;
+	Researcher p {board3, City::Mumbai};
+	p.take_card(City::Mumbai)
+	.take_card(City::Tehran)
+	.take_card(City::Moscow)
+	.take_card(City::Istanbul);
+	CHECK_THROWS(p.discover_cure(Color::Black));
+	CHECK_THROWS(p.discover_cure(Color::Blue));
+	p.take_card(City::Cairo);
+	CHECK_NOTHROW(p.discover_cure(Color::Black));
+	cout<<endl;
+	cout<<"end scenario 3"<<endl;
+	cout<<endl;
+}
+
+TEST_CASE("game scenario 4: Medic"){
+	Board board4;
+	Medic p {board4, City::Mumbai};
+	CHECK(board4[Mumbai] == 0);
+	cout<<endl;
+	cout<<"end scenario 4"<<endl;
+	cout<<endl;
+}
+
+TEST_CASE("game scenario 5: Virologist"){
+	Board board5;
+	Virologist p {board5, City::Mumbai};
+	cout<<endl;
+	cout<<"end scenario 5"<<endl;
+	cout<<endl;
+}
+
+TEST_CASE("game scenario 6: GeneSplicer"){
+	Board board6;
+	GeneSplicer p {board6, City::Mumbai};
+	cout<<endl;
+	cout<<"end scenario 6"<<endl;
+	cout<<endl;
+}
+
+TEST_CASE("game scenario 7: FieldDoctor"){
+	Board board7;
+	FieldDoctor p {board7, City::Mumbai};
+	cout<<endl;
+	cout<<"end scenario 7"<<endl;
 	cout<<endl;
 }

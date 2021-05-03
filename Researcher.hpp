@@ -14,7 +14,8 @@ namespace pandemic{
         Researcher(Board& board, City city): Player(board, city){}
         Player& discover_cure(Color color) override;
         std::string role() override{
-            return "Researcher";
+            std::string city = ToString(Player::currennt_city);
+            return "Researcher. and locate at: "+city;
         }
         
     };

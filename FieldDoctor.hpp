@@ -14,8 +14,9 @@ namespace pandemic{
         FieldDoctor(Board& board, City city): Player(board, city){}  
         Player& treat(City city) override;
         std::string role() override{
-            return "FieldDoctor";
-            }
+            std::string city = ToString(Player::currennt_city);
+            return "FieldDoctor. and locate at: "+city;
+        }
     };
 
 }

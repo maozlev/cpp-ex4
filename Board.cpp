@@ -137,7 +137,7 @@ namespace pandemic{
 
     
     int& Board::operator[] (const City city){
-        return this->infection_level.at(city);
+        return infection_level.at(city);
     }
     
     ostream& operator<< (std::ostream& os, const Board& a) {
@@ -172,10 +172,7 @@ namespace pandemic{
     }
 
     bool Board::card_in_game(City a){
-        if(cards.at(a) == true){
-            return true;
-        }
-        return false;
+        return cards.at(a);
     }
     void Board::remove_cures(){
         map <Color , bool> cures{

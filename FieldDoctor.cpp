@@ -16,7 +16,7 @@ namespace pandemic{
             if(current_board.infection_level.at(city) <= 0){
                 throw logic_error{st+" is already clear"};
             }
-            if(current_board.research_lab.at(city) == true){
+            if(current_board.research_lab.at(city)){
                 current_board[city] = 0;
                 cout<<"update infection level: "<<
                 current_board[city]<<
