@@ -133,6 +133,7 @@ namespace pandemic{
                     break;
                 }
                 if(this->current_board.colors.at(this->cards_of_player.at(i)) == color){
+                    this->current_board.cards.at(this->cards_of_player.at(i)) = false;
                     this->cards_of_player.erase(this->cards_of_player.begin() + i);
                     i--;
                     sum++;

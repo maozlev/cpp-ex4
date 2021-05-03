@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 #include <stdlib.h>
-#include <time.h>
+// #include <time.h>
 
 #include "Board.hpp"
 #include "City.hpp"
@@ -79,6 +79,11 @@ TEST_CASE("game scenario 0: OperationsExpert"){ // check all function
 	CHECK(board[City::Cairo] == 0);
 	cout<<"test some output"<<endl;
 	cout<<board<<endl;
+	std::string st = p.role();
+	Dispatcher p1 {board, City::Atlanta};
+	std::string st1 = p1.role();
+	CHECK(st != st1); 
+
 	cout<<endl;
 	cout<<"end scenario 0"<<endl;
 	cout<<endl;
@@ -143,8 +148,55 @@ TEST_CASE("game scenario 3: Researcher"){
 
 TEST_CASE("game scenario 4: Medic"){
 	Board board4;
-	Medic p {board4, City::Mumbai};
-	CHECK(board4[Mumbai] == 0);
+	Medic p {board4, City::Moscow};
+
+	board4[StPetersburg] = 3;
+	board4[Algiers] = 4;
+	board4[Madrid] = 5;
+	board4[NewYork] = 2;
+	board4[Essen] = 7;
+
+	CHECK(board4[StPetersburg] == 3);
+	CHECK(board4[Algiers] == 4);
+	CHECK(board4[Madrid] == 5);
+	CHECK(board4[NewYork] == 2);
+	CHECK(board4[Essen] == 7);
+
+	p.take_card(Milan);
+	p.take_card(London);
+	p.take_card(Madrid);
+	p.take_card(Algiers);
+	p.take_card(Lagos);
+	p.take_card(StPetersburg);
+
+	p.drive(StPetersburg);
+	p.build();
+	p.take_card(StPetersburg);
+	p.treat(StPetersburg);
+	CHECK(board4[StPetersburg] == 0);
+	p.take_card(StPetersburg);
+	CHECK_THROWS(p.discover_cure(Blue));
+	p.take_card(NewYork);
+	CHECK_NOTHROW(p.discover_cure(Blue));
+	p.drive(Essen);
+	CHECK(board4[Essen] == 0);
+	p.take_card(NewYork);
+	p.fly_direct(NewYork);
+	CHECK(board4[NewYork] == 0);
+	p.take_card(NewYork);
+	p.fly_charter(Madrid);
+	CHECK(board4[Madrid] == 0);
+	p.take_card(Madrid);
+	p.build();
+	p.fly_shuttle(StPetersburg);
+	CHECK(board4[StPetersburg] == 0);
+	p.fly_direct(Algiers);
+	CHECK(board4[Algiers] == 4);
+	p.take_card(Algiers);
+	p.build();
+	p.take_card(Algiers);
+	p.treat(Algiers);
+	CHECK(board4[Algiers] == 0);
 	cout<<endl;
 	cout<<"end scenario 4"<<endl;
 	cout<<endl;
