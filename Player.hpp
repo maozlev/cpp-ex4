@@ -6,19 +6,18 @@
 #include <map>
 #include <vector>
 #include <iostream>
+#include <typeinfo>
 
 namespace pandemic{
 
     class Player{
 
         public:
-
-        std::string roles;
         std::vector <City> cards_of_player;
         City currennt_city;
         Board current_board;
 
-        Player(Board& board, City city, std::string roles);
+        Player(Board& board, City city);
 
         virtual Player& drive(City city);
         virtual Player& fly_direct(City city);
@@ -29,10 +28,13 @@ namespace pandemic{
         virtual Player& treat(City city);
 
         Player& take_card(City city);
-        void role();
 
         int get_num_of_color(Color color);
         int& minus_one(int& x);
+
+        virtual std::string role(){
+            return "Player";
+        }
 
             
         

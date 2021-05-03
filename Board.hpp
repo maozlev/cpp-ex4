@@ -30,7 +30,7 @@ namespace pandemic{
         // ~Board();
 
         int& operator[] (const City city);
-        friend std::ostream& operator<< (std::ostream& os, const Board board);
+        friend std::ostream& operator<< (std::ostream& os, const Board& a);
         bool is_clean();
         bool is_neighbors(City a, City b);
         bool card_in_game(City a);

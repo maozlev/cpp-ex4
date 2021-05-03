@@ -20,5 +20,6 @@ namespace pandemic{
         cout<<"lab has been built in: "<<city<<endl;
         return *this;
     }
+    
 }
 

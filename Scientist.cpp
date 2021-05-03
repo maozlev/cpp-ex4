@@ -37,5 +37,6 @@ namespace pandemic{
         cout<<"discoverd: "<<c<<" cure!"<<endl;
         return *this;
     }
+    
 }
 

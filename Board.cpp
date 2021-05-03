@@ -140,9 +140,13 @@ namespace pandemic{
         return this->infection_level.at(city);
     }
     
-   std::ostream& operator<< (std::ostream& os, const Board board){
-       return cout<<"Board:"<<endl;
-   }
+    ostream& operator<< (std::ostream& os, const Board& a) {
+        return (os <<"cure status:"<<endl<<
+        "Black: "<<a.cure.at(Black)<<endl<<
+        "Blue:"<<a.cure.at(Blue)<<endl<<
+        "Red: "<<a.cure.at(Red)<<endl<<
+        "Yellow: "<<a.cure.at(Yellow)<<endl);
+    }
 
     
 

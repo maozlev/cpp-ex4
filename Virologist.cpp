@@ -33,5 +33,6 @@ namespace pandemic{
         cout<<"go to the city: "<<st<<endl;
         return *this;
     }
+    
 }
 

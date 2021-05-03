@@ -7,18 +7,20 @@
 #include <stdexcept>
 
 
+
 using namespace std;
 
 namespace pandemic{
 
-    Player::Player(Board& board, City city, string roles){
-        string st = roles;
+    Player::Player(Board& board, City city){
         std::vector <City> cards_of_playerr;
         this->current_board = board;
         this->currennt_city = city;
         this->cards_of_player = cards_of_playerr;
-        // this->role = roles;
     }
+
+
+    
 
     Player& Player::drive(City city){
         string st = ToString(city);
