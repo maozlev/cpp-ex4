@@ -33,7 +33,8 @@ namespace pandemic{
         int& minus_one(int& x);
 
         virtual std::string role(){
-            return "Player";
+            std::string city = ToString(Player::currennt_city);
+            return "Player. and locate at: "+city;
         }
 
             

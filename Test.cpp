@@ -29,25 +29,53 @@ TEST_CASE("game scenario 1: OperationsExpert"){
     Board board;  // Initialize an empty board (with 0 disease cubes in any city).
 	bool f=true;
 	CHECK(f == board.is_clean());
-	
-	board[City::Kinshasa] = 3;      // put 3 yellow disease cubes in Kinshasa.
+	board[City::Kinshasa] = 3;      
     CHECK(board[City::Kinshasa] == 3);
-	board[City::Kinshasa] = 2;      // change number of disease cubes in Kinshasa to 2.
+	board[City::Kinshasa] = 2;      
     CHECK(board[City::Kinshasa] == 2);
-	board[City::MexicoCity] = 3;    // put 3 yellow disease cubes in MexicoCity
+	board[City::MexicoCity] = 3; 
     CHECK(board[City::MexicoCity] == 3);
-	board[City::HoChiMinhCity] = 1; // put 1 red disease cube in HoChiMinhCity
+	board[City::HoChiMinhCity] = 1; 
     CHECK(board[City::HoChiMinhCity] == 1);
-	board[City::Chicago] = 1;       // put 1 blue disease cube in Chicago
-    CHECK(board[City::Chicago] == 1);
-	board[City::Algiers] = 3;
-    CHECK(board[City::Algiers] == 3);
-
-	OperationsExpert player {board, City::Atlanta};  // initialize an "operations expert" player on the given board, in Atlanta.
-	player.take_card(City::Johannesburg)
+	board[City::Chicago] = 1;           
+	CHECK(board[City::Chicago] == 1);
+	board[City::Cairo] = 3;
+    CHECK(board[City::Cairo] == 3);
+	CHECK(f != board.is_clean());
+	OperationsExpert p {board, City::Atlanta};  // initialize an "operations expert" p on the given board, in Atlanta.
+	p.take_card(City::Johannesburg)
 	 .take_card(City::Khartoum)
 	 .take_card(City::SaoPaulo)
 	 .take_card(City::BuenosAires)
-	 .take_card(City::HoChiMinhCity);
+	 .take_card(City::Cairo);
+	CHECK_NOTHROW(p.drive(Miami));
+	CHECK_NOTHROW(p.build());
+	CHECK_NOTHROW(p.fly_direct(City::Johannesburg));
+	CHECK_NOTHROW(p.build());
+	CHECK_NOTHROW(p.fly_shuttle(City::Miami));
+	p.take_card(City::Miami);
+	CHECK_NOTHROW(p.fly_charter(Chicago));
+	CHECK_THROWS(p.fly_direct(City::Johannesburg));
+	CHECK_NOTHROW(p.drive(SanFrancisco));
+	CHECK_NOTHROW(p.drive(LosAngeles));
+	CHECK_NOTHROW(p.build());
+	CHECK_THROWS(p.discover_cure(Color::Yellow));
+	p.take_card(City::Johannesburg);
+	p.take_card(City::Lagos);
+	p.take_card(City::Miami);
+	CHECK_NOTHROW(p.discover_cure(Color::Yellow));
+	CHECK_NOTHROW(cout<<p.role()<<endl);
+	CHECK_NOTHROW(p.drive(MexicoCity));
+	CHECK_NOTHROW(p.treat(MexicoCity));
+	CHECK(board[City::MexicoCity] == 0);
+	CHECK_NOTHROW(p.fly_direct(City::Cairo));
+	CHECK_NOTHROW(p.treat(City::Cairo));
+	CHECK(board[City::Cairo] == 2);
+	CHECK_NOTHROW(p.treat(City::Cairo));
+	CHECK(board[City::Cairo] == 1);
+	CHECK_NOTHROW(p.treat(City::Cairo));
+	CHECK(board[City::Cairo] == 0);
+}
+TEST_CASE("game scenario 1: Dispacher"){
 
 }

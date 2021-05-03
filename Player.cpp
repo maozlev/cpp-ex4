@@ -17,10 +17,7 @@ namespace pandemic{
         this->current_board = board;
         this->currennt_city = city;
         this->cards_of_player = cards_of_playerr;
-    }
-
-
-    
+    } 
 
     Player& Player::drive(City city){
         string st = ToString(city);
@@ -127,17 +124,20 @@ namespace pandemic{
             }
             int num_of_color_card = get_num_of_color(color);
             if(num_of_color_card<5){
-                throw logic_error{"you not have enoght "+c+" cards"};
+                throw logic_error{"you dont have enough "+c+" cards"};
             }
             int sum=0;
-            for (unsigned int i = 0; i < this->cards_of_player.size(); i++){
+            unsigned int i = 0;
+            while(1){
                 if(sum == 5){
                     break;
                 }
                 if(this->current_board.colors.at(this->cards_of_player.at(i)) == color){
                     this->cards_of_player.erase(this->cards_of_player.begin() + i);
+                    i--;
                     sum++;
                 }
+                i++;
             }
             this->current_board.cure.at(color) = true;
             cout<<"drop: "<<sum<<" cards"<<endl;
@@ -152,7 +152,7 @@ namespace pandemic{
             if(current_board.infection_level.at(city) <= 0){
                 throw logic_error{st+" is already clear"};
             }
-            if(current_board.research_lab.at(city) == true){
+            if(current_board.cure.at(current_board.colors.at(city)) == true){
                 current_board[city] = 0;
                 cout<<"update infection level: "<<
                 current_board[city]<<
