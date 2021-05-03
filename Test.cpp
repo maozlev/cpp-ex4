@@ -24,9 +24,9 @@
 using namespace pandemic;
 using namespace std;
 
-TEST_CASE("game scenario 1: OperationsExpert"){
+TEST_CASE("game scenario 0: OperationsExpert"){ // check all function
 
-    Board board;  // Initialize an empty board (with 0 disease cubes in any city).
+    Board board;  
 	bool f=true;
 	CHECK(f == board.is_clean());
 	board[City::Kinshasa] = 3;      
@@ -42,7 +42,7 @@ TEST_CASE("game scenario 1: OperationsExpert"){
 	board[City::Cairo] = 3;
     CHECK(board[City::Cairo] == 3);
 	CHECK(f != board.is_clean());
-	OperationsExpert p {board, City::Atlanta};  // initialize an "operations expert" p on the given board, in Atlanta.
+	OperationsExpert p {board, City::Atlanta}; 
 	p.take_card(City::Johannesburg)
 	 .take_card(City::Khartoum)
 	 .take_card(City::SaoPaulo)
@@ -75,7 +75,55 @@ TEST_CASE("game scenario 1: OperationsExpert"){
 	CHECK(board[City::Cairo] == 1);
 	CHECK_NOTHROW(p.treat(City::Cairo));
 	CHECK(board[City::Cairo] == 0);
+	cout<<endl;
+	cout<<"end scenario 0"<<endl;
+	cout<<endl;
 }
-TEST_CASE("game scenario 1: Dispacher"){
 
+TEST_CASE("game scenario 1: Dispacher"){ // check only his inheribate function
+	Board board1;
+	Dispatcher p1 {board1, City::Madrid};
+	CHECK_THROWS(p1.fly_direct(City::SanFrancisco));
+	CHECK_THROWS(p1.build());
+	p1.take_card(City::Madrid);
+	CHECK_NOTHROW(p1.build());
+	CHECK_NOTHROW(p1.fly_direct(City::SanFrancisco));
+	p1.take_card(City::SanFrancisco);
+	CHECK_NOTHROW(p1.fly_charter(City::HoChiMinhCity));
+	CHECK_THROWS(p1.fly_direct(City::SanFrancisco));
+	cout<<endl;
+	cout<<"end scenario 1"<<endl;
+	cout<<endl;
+}
+
+TEST_CASE("game scenario 2: Scientist"){ // check only his inheribate function
+	Board board2;
+	Scientist p3 {board2, City::Osaka, 3};
+	Scientist p2 {board2, City::Osaka, 2};
+	
+	p3.take_card(City::Osaka)
+	.take_card(City::Seoul)
+	.take_card(City::Taipei)
+	.take_card(City::Manila)
+	.take_card(City::Sydney);
+
+	p2.take_card(City::Osaka);
+	
+	p3.build();
+	p3.fly_direct(City::Sydney);
+	CHECK_THROWS(p3.discover_cure(Color::Red));
+	p3.take_card(City::Sydney);
+	p3.build();
+	CHECK_NOTHROW(p3.discover_cure(Color::Red));
+	CHECK_THROWS(p2.discover_cure(Color::Red));
+	p2.take_card(City::HoChiMinhCity);
+	p2.build();
+	p2.take_card(City::HoChiMinhCity);
+	CHECK_THROWS(p2.discover_cure(Color::Red));
+	p2.take_card(City::Osaka);
+	CHECK_NOTHROW(p2.discover_cure(Color::Red));
+
+	cout<<endl;
+	cout<<"end scenario 2"<<endl;
+	cout<<endl;
 }

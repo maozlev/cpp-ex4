@@ -22,14 +22,17 @@ namespace pandemic{
                 throw logic_error{"you not have enoght "+c+" cards"};
             }
             int sum=0;
-            for (unsigned int i = 0; i < this->cards_of_player.size(); i++){
+            unsigned int i = 0;
+            while(1){
                 if(sum == Scientist::n){
                     break;
                 }
                 if(this->current_board.colors.at(this->cards_of_player.at(i)) == color){
                     this->cards_of_player.erase(this->cards_of_player.begin() + i);
                     sum++;
+                    i--;
                 }
+                i++;
             }
             this->current_board.cure.at(color) = true;
             cout<<"drop: "<<sum<<" cards"<<endl;
