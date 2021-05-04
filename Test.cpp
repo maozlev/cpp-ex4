@@ -240,6 +240,7 @@ TEST_CASE("game scenario 5: Virologist"){
 
 	p.take_card(StPetersburg);
 	p.take_card(Algiers);
+	p.take_card(Kolkata);
 
 	CHECK_NOTHROW(p.treat(StPetersburg)); // treat -1 drop card
 	CHECK_THROWS(p.treat(StPetersburg)); // cant treat no card
@@ -255,16 +256,21 @@ TEST_CASE("game scenario 5: Virologist"){
 	CHECK_NOTHROW(p.treat(Algiers)); // treat -1 . drop card
 	CHECK(board5[Algiers] == 4); 
 	p.take_card(Algiers);
+	CHECK_NOTHROW(p.fly_direct(Algiers)); // drop Algier
+	p.take_card(Algiers);
 	CHECK_NOTHROW(p.build()); // build in algiers drop card
 	CHECK_NOTHROW(p.discover_cure(Red)); 
+	p.take_card(Jakarta);
 	CHECK_NOTHROW(p.treat(Jakarta)); // treat with cure  = 0 
 	CHECK(board5[Jakarta] == 0);
+	p.take_card(Jakarta);
 	CHECK_THROWS(p.treat(Jakarta)); // jakarta clear already
-	p.fly_direct(Delhi);
+	CHECK_NOTHROW(p.fly_direct(Delhi));
 	p.take_card(Delhi);
-	p.build();
-	p.drive(Kolkata);
-	p.treat(Delhi);
+	CHECK_NOTHROW(p.build()); // drop delhi
+	CHECK_NOTHROW(p.drive(Kolkata)); 
+	p.take_card(Delhi);
+	CHECK_NOTHROW(p.treat(Delhi));
 	CHECK(board5[Delhi] == 6); // treat -1
 	p.drive(Bangkok);
 	p.treat(Kolkata);

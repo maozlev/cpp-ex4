@@ -35,7 +35,7 @@ namespace pandemic{
 
         virtual std::string role(){
             std::string city = ToString(Player::currennt_city);
-            return "Player. and locate at: "+city;
+            return "Player";
         }
 
             

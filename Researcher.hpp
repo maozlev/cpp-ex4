@@ -15,7 +15,7 @@ namespace pandemic{
         Player& discover_cure(Color color) override;
         std::string role() override{
             std::string city = ToString(Player::currennt_city);
-            return "Researcher. and locate at: "+city;
+            return "Researcher";
         }
         
     };

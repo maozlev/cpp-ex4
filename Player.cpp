@@ -178,8 +178,8 @@ namespace pandemic{
             cout<<st+" in the game already"<<endl;
             return *this;
         }
-        this->cards_of_player.insert(cards_of_player.begin(), 1, city);
-        this->current_board.cards.at(city) = true;
+        cards_of_player.insert(cards_of_player.begin(), 1, city);
+        current_board.cards[city] = true;
         cout<<"take card: "<<st<<endl;
         return *this;
     }

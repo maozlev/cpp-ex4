@@ -12,6 +12,9 @@ namespace pandemic{
 
     Player& Virologist::treat(City city){
         string st = ToString(city);
+        if(!current_board.cards[city]){
+            throw invalid_argument{"no have card of "+st};
+        }
         Color c = current_board.colors.at(city);
             if(current_board.infection_level.at(city) <= 0){
                 throw logic_error{st+" is already clear"};
@@ -22,25 +25,19 @@ namespace pandemic{
                 current_board[city]<<
                 " at: "<<st<<endl;
                 cout<<st<<" is clear"<<endl;
-                current_board.cards[city] = false;
-                unsigned int t = 0;
-                while(t < this->cards_of_player.size()){
-                    if(this->cards_of_player.at(t) == city){
-                    this->cards_of_player.erase(this->cards_of_player.begin() + t);
-                    }
-                t++;
-                } 
-                return *this;
+
+            }else{
+                current_board[city]--;
+                cout<<"update infection level: "<<
+                current_board[city]<<
+                " at: "<<st<<endl;
             }
-            current_board[city]--;
-            cout<<"update infection level: "<<
-            current_board[city]<<
-            " at: "<<st<<endl;
             current_board.cards[city] = false;
             unsigned int t = 0;
             while(t < this->cards_of_player.size()){
                 if(this->cards_of_player.at(t) == city){
                     this->cards_of_player.erase(this->cards_of_player.begin() + t);
+                    break;
                 }
             t++;
             } 

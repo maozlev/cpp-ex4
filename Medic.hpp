@@ -19,7 +19,7 @@ namespace pandemic{
         Player& fly_charter(City city) override;
         std::string role() override{
             std::string city = ToString(Player::currennt_city);
-            return "Medic. and locate at: "+city;
+            return "Medic";
         }
     };
 
