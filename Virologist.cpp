@@ -16,20 +16,35 @@ namespace pandemic{
             if(current_board.infection_level.at(city) <= 0){
                 throw logic_error{st+" is already clear"};
             }
-            if(current_board.research_lab.at(city) || current_board.cure.at(c)){
+            if(current_board.cure.at(c)){
                 current_board[city] = 0;
                 cout<<"update infection level: "<<
                 current_board[city]<<
                 " at: "<<st<<endl;
                 cout<<st<<" is clear"<<endl;
+                current_board.cards[city] = false;
+                unsigned int t = 0;
+                while(t < this->cards_of_player.size()){
+                    if(this->cards_of_player.at(t) == city){
+                    this->cards_of_player.erase(this->cards_of_player.begin() + t);
+                    }
+                t++;
+                } 
                 return *this;
             }
             current_board[city]--;
             cout<<"update infection level: "<<
             current_board[city]<<
             " at: "<<st<<endl;
-            return *this;
-        }
-    
+            current_board.cards[city] = false;
+            unsigned int t = 0;
+            while(t < this->cards_of_player.size()){
+                if(this->cards_of_player.at(t) == city){
+                    this->cards_of_player.erase(this->cards_of_player.begin() + t);
+                }
+            t++;
+            } 
+        return *this;
+    } 
 }
 

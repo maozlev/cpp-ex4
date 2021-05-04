@@ -210,7 +210,7 @@ TEST_CASE("game scenario 4: Medic"){
 
 TEST_CASE("game scenario 5: Virologist"){
 	Board board5;
-	Virologist p {board5, City::Seoul};
+	Virologist p {board5, City::Seoul}; // statrs at seoul
 
 	board5[StPetersburg] = 3;
 	board5[Algiers] = 5;
@@ -238,26 +238,34 @@ TEST_CASE("game scenario 5: Virologist"){
 	.take_card(Seoul)
 	.take_card(Delhi);
 
-	p.treat(StPetersburg);
-	CHECK(board5[StPetersburg] == 2);
-	p.treat(StPetersburg);
-	CHECK(board5[StPetersburg] == 1);
-	p.treat(StPetersburg);
-	CHECK(board5[StPetersburg] == 0);
-	CHECK_THROWS(p.treat(StPetersburg));
-	p.treat(Algiers);
-	CHECK(board5[Algiers] == 4);
-	CHECK_NOTHROW(p.build());
-	CHECK_NOTHROW(p.discover_cure(Red));
-	p.treat(Jakarta);
+	p.take_card(StPetersburg);
+	p.take_card(Algiers);
+
+	CHECK_NOTHROW(p.treat(StPetersburg)); // treat -1 drop card
+	CHECK_THROWS(p.treat(StPetersburg)); // cant treat no card
+	CHECK(board5[StPetersburg] == 2); 
+	p.take_card(StPetersburg);
+	CHECK_NOTHROW(p.treat(StPetersburg)); // treat -1 drop card
+	CHECK(board5[StPetersburg] == 1); 
+	CHECK_THROWS(p.fly_direct(StPetersburg)); // no card of stpetersburg
+	p.take_card(StPetersburg);
+	CHECK_NOTHROW(p.treat(StPetersburg)); // treat -1 drop card
+	CHECK(board5[StPetersburg] == 0); 
+	CHECK_THROWS(p.treat(StPetersburg)); // treat -1 -> throw, already 0
+	CHECK_NOTHROW(p.treat(Algiers)); // treat -1 . drop card
+	CHECK(board5[Algiers] == 4); 
+	p.take_card(Algiers);
+	CHECK_NOTHROW(p.build()); // build in algiers drop card
+	CHECK_NOTHROW(p.discover_cure(Red)); 
+	CHECK_NOTHROW(p.treat(Jakarta)); // treat with cure  = 0 
 	CHECK(board5[Jakarta] == 0);
-	CHECK_THROWS(p.treat(Jakarta));
+	CHECK_THROWS(p.treat(Jakarta)); // jakarta clear already
 	p.fly_direct(Delhi);
 	p.take_card(Delhi);
 	p.build();
 	p.drive(Kolkata);
 	p.treat(Delhi);
-	CHECK(board5[Delhi] == 0);
+	CHECK(board5[Delhi] == 6); // treat -1
 	p.drive(Bangkok);
 	p.treat(Kolkata);
 	CHECK(board5[Kolkata] == 2);
@@ -274,6 +282,8 @@ TEST_CASE("game scenario 6: GeneSplicer"){
 	board6[Algiers] = 6;
 	board6[Jakarta] = 7;
 	board6[Johannesburg] = 3;
+
+	// regular treat without cure
 
 	p.take_card(StPetersburg);
 	p.fly_direct(StPetersburg);
@@ -293,6 +303,9 @@ TEST_CASE("game scenario 6: GeneSplicer"){
 	CHECK(board6[Johannesburg] == 2);
 	p.take_card(Johannesburg);
 
+	// take 5 cards with differnt colors
+	// and find all cures
+
 	p.take_card(LosAngeles)
 	.take_card(Taipei)
 	.take_card(Bangkok)
@@ -300,32 +313,37 @@ TEST_CASE("game scenario 6: GeneSplicer"){
 	.take_card(Manila)
 	.take_card(Chicago);
 	p.build();
-	CHECK_NOTHROW(p.discover_cure(Black));
-	CHECK_THROWS(p.discover_cure(Red));
+	CHECK_NOTHROW(p.discover_cure(Black)); 
+	CHECK_THROWS(p.discover_cure(Red)); // not enought cards
 	p.take_card(London)
 	.take_card(Taipei)
 	.take_card(Bangkok)
 	.take_card(Bogota)
 	.take_card(Manila);
 	CHECK_NOTHROW(p.discover_cure(Yellow));
-	CHECK_THROWS(p.discover_cure(Blue));
+	CHECK_THROWS(p.discover_cure(Blue)); // not enought cards
 	p.take_card(HongKong)
 	.take_card(BuenosAires)
 	.take_card(Essen)
 	.take_card(Beijing)
 	.take_card(Manila);
 	CHECK_NOTHROW(p.discover_cure(Blue));
-	CHECK_THROWS(p.discover_cure(Red));
+	CHECK_THROWS(p.discover_cure(Red)); // not enought cards
 	p.take_card(HongKong)
 	.take_card(London)
 	.take_card(Algiers)
 	.take_card(Beijing)
 	.take_card(Manila);
 	CHECK_NOTHROW(p.discover_cure(Red));
+
+	// already discoverd should not throw
+	
 	CHECK_NOTHROW(p.discover_cure(Blue));
 	CHECK_NOTHROW(p.discover_cure(Black));
 	CHECK_NOTHROW(p.discover_cure(Yellow));
 	CHECK_NOTHROW(p.discover_cure(Red));
+
+	// cheack if cures working and treats to 0
 
 	p.take_card(StPetersburg);
 	p.fly_direct(StPetersburg);
@@ -360,15 +378,24 @@ TEST_CASE("game scenario 7: FieldDoctor"){
 	board7[Baghdad] = 3;
 	board7[Mumbai] = 3;
 
-	p.treat(Delhi);
-	p.treat(Karachi);
-	p.treat(Chennai);
-	p.treat(Mumbai);
-	
+	// check if treat connected cities
+
+	CHECK_NOTHROW(p.treat(Delhi));
+	CHECK_NOTHROW(p.treat(Karachi));
+	CHECK_NOTHROW(p.treat(Chennai));
+	CHECK_NOTHROW(p.treat(Mumbai));
+
 	CHECK(board7[Delhi] == 2);
 	CHECK(board7[Karachi] == 6);
 	CHECK(board7[Chennai] == 6);
 	CHECK(board7[Mumbai] == 2);
+
+	// cant treat no connected cities
+	
+	CHECK_THROWS(p.treat(London));
+	CHECK_THROWS(p.treat(Sydney));
+	CHECK_THROWS(p.treat(Tehran));
+
 
 	p.take_card(Algiers);
 	p.take_card(Cairo);
@@ -378,13 +405,22 @@ TEST_CASE("game scenario 7: FieldDoctor"){
 	p.take_card(Mumbai);
 	p.build();
 	p.discover_cure(Black);
+
+	// check treat with cure if treat to 0
 	p.drive(Karachi);
-	p.treat(Baghdad);
-	p.treat(Riyadh);
+	CHECK_NOTHROW(p.treat(Baghdad));
+	CHECK_NOTHROW(p.treat(Riyadh));
+	CHECK_NOTHROW(p.treat(Mumbai));
+	
 	CHECK(board7[Baghdad] == 0);
 	CHECK(board7[Riyadh] == 0);
-	p.treat(Mumbai);
 	CHECK(board7[Mumbai] == 0);
+
+	// cant cure non connected cities
+
+	CHECK_THROWS(p.treat(Moscow));
+	CHECK_THROWS(p.treat(Istanbul));
+	
 
 	cout<<endl;
 	cout<<"end scenario 7"<<endl;
