@@ -15,6 +15,8 @@
 #include "Medic.hpp"
 #include "Virologist.hpp"
 
+// AUTHOR - MAOZ LEV
+
 using namespace pandemic;
 using namespace std;
 
