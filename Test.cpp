@@ -1,13 +1,7 @@
 #include "doctest.h"
 #include <iostream>
-#include <fstream>
-#include <sstream>
-#include <ctime>
 #include <stdexcept>
-#include <string>
 #include <vector>
-#include <stdlib.h>
-// #include <time.h>
 
 #include "Board.hpp"
 #include "City.hpp"
