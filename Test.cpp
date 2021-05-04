@@ -37,7 +37,7 @@ TEST_CASE("game scenario 0: OperationsExpert"){ // check all function
 	CHECK(board[City::Chicago] == 1);
 	board[City::Cairo] = 3;
     CHECK(board[City::Cairo] == 3);
-	CHECK(f != board.is_clean());
+	CHECK(f != board.is_clean()); 
 	OperationsExpert p {board, City::Atlanta}; 
 	p.take_card(City::Johannesburg)
 	 .take_card(City::Khartoum)
@@ -45,41 +45,55 @@ TEST_CASE("game scenario 0: OperationsExpert"){ // check all function
 	 .take_card(City::BuenosAires)
 	 .take_card(City::Cairo);
 	CHECK_NOTHROW(p.drive(Miami));
-	CHECK_NOTHROW(p.build());
-	CHECK_NOTHROW(p.fly_direct(City::Johannesburg));
-	CHECK_NOTHROW(p.build());
-	CHECK_NOTHROW(p.fly_shuttle(City::Miami));
+	CHECK_NOTHROW(p.build()); //build in miami
+	CHECK_NOTHROW(p.fly_direct(City::Johannesburg));//drop johannesburg
+	CHECK_NOTHROW(p.build());//build in johannesburg - no throw because OperationsExpert
+	CHECK_NOTHROW(p.fly_shuttle(City::Miami)); // no throw because 2 cities have stations
 	p.take_card(City::Miami);
-	CHECK_NOTHROW(p.fly_charter(Chicago));
-	CHECK_THROWS(p.fly_direct(City::Johannesburg));
-	CHECK_NOTHROW(p.drive(SanFrancisco));
-	CHECK_NOTHROW(p.drive(LosAngeles));
-	CHECK_NOTHROW(p.build());
-	CHECK_THROWS(p.discover_cure(Color::Yellow));
+	CHECK_NOTHROW(p.fly_charter(Chicago)); // drop miami
+	CHECK_THROWS(p.fly_direct(City::Johannesburg)); // there is no card of johannesburg
+	CHECK_NOTHROW(p.drive(SanFrancisco)); // connected cities chicago ---> SanFrancisco
+	CHECK_NOTHROW(p.drive(LosAngeles)); // connected cities SanFrancisco ---> LosAngeles 
+	CHECK_NOTHROW(p.build()); // build in LosAngeles
+	CHECK_THROWS(p.discover_cure(Color::Yellow)); // no 5 yellow cards
 	p.take_card(City::Johannesburg);
 	p.take_card(City::Lagos);
 	p.take_card(City::Miami);
-	CHECK_NOTHROW(p.discover_cure(Color::Yellow));
-	CHECK_NOTHROW(cout<<p.role()<<endl);
+	CHECK_NOTHROW(p.discover_cure(Color::Yellow)); // drop 5 yellow cards
+	CHECK_NOTHROW(cout<<p.role()<<endl); // check if print
 	CHECK_NOTHROW(p.drive(MexicoCity));
-	// cout<<board[City::MexicoCity]<<endl;
 	CHECK_NOTHROW(p.treat(MexicoCity));
-	// cout<<board[City::MexicoCity]<<endl;
-	CHECK(board[City::MexicoCity] == 0);
-	CHECK_NOTHROW(p.fly_direct(City::Cairo));
-	CHECK_NOTHROW(p.treat(City::Cairo));
+	CHECK(board[City::MexicoCity] == 0); // there is yellow cure
+	CHECK_NOTHROW(p.fly_direct(City::Cairo));// drop cairo card
+	CHECK_NOTHROW(p.treat(City::Cairo)); // cairo-1 there is no Black cure
 	CHECK(board[City::Cairo] == 2);
-	CHECK_NOTHROW(p.treat(City::Cairo));
+	CHECK_NOTHROW(p.treat(City::Cairo)); // cairo-1 there is no Black cure
 	CHECK(board[City::Cairo] == 1);
-	CHECK_NOTHROW(p.treat(City::Cairo));
-	CHECK(board[City::Cairo] == 0);
+	CHECK_NOTHROW(p.treat(City::Cairo)); // cairo-1 there is no Black cure
+	CHECK(board[City::Cairo] == 0); // cairo-1 there is no Black cure
+	CHECK_THROWS(p.treat(City::Cairo)); // cairo clear it should throw
 	cout<<"test some output"<<endl;
-	cout<<board<<endl;
-	std::string st = p.role();
+	cout<<board<<endl; // check print board some way
 	Dispatcher p1 {board, City::Atlanta};
+	Scientist p2 {board, City::Atlanta,3};
+	Researcher p3 {board, City::Atlanta};
+	Medic p4 {board, City::Atlanta};
+	Virologist p5 {board, City::Atlanta};
+	GeneSplicer p6 {board, City::Atlanta};
+	FieldDoctor p7 {board, City::Atlanta};
+	std::string st = p.role();
 	std::string st1 = p1.role();
-	CHECK(st != st1); 
-
+	std::string st2 = p2.role();
+	std::string st3 = p3.role();
+	std::string st4 = p4.role();
+	std::string st5 = p5.role();
+	std::string st6 = p6.role(); 
+	CHECK(st != st1); // check if the role is different for each class..
+	CHECK(st != st2);
+	CHECK(st != st3);
+	CHECK(st != st4);
+	CHECK(st != st5);
+	CHECK(st != st6);
 	cout<<endl;
 	cout<<"end scenario 0"<<endl;
 	cout<<endl;
@@ -88,14 +102,14 @@ TEST_CASE("game scenario 0: OperationsExpert"){ // check all function
 TEST_CASE("game scenario 1: Dispacher"){ // check only his inheribate function
 	Board board1;
 	Dispatcher p1 {board1, City::Madrid};
-	CHECK_THROWS(p1.fly_direct(City::SanFrancisco));
-	CHECK_THROWS(p1.build());
+	CHECK_THROWS(p1.fly_direct(City::SanFrancisco)); // have no cards
+	CHECK_THROWS(p1.build()); // have no cards
 	p1.take_card(City::Madrid);
 	CHECK_NOTHROW(p1.build());
-	CHECK_NOTHROW(p1.fly_direct(City::SanFrancisco));
+	CHECK_NOTHROW(p1.fly_direct(City::SanFrancisco)); // can fly because madrid has a station 
 	p1.take_card(City::SanFrancisco);
-	CHECK_NOTHROW(p1.fly_charter(City::HoChiMinhCity));
-	CHECK_THROWS(p1.fly_direct(City::SanFrancisco));
+	CHECK_NOTHROW(p1.fly_charter(City::HoChiMinhCity)); // drop SanFrancisco
+	CHECK_THROWS(p1.fly_direct(City::SanFrancisco)); // card isnt exist
 	cout<<endl;
 	cout<<"end scenario 1"<<endl;
 	cout<<endl;
@@ -104,23 +118,22 @@ TEST_CASE("game scenario 1: Dispacher"){ // check only his inheribate function
 TEST_CASE("game scenario 2: Scientist"){ // check only his inheribate function
 	Board board2;
 	Scientist p3 {board2, City::Osaka, 3};
-	Scientist p2 {board2, City::Osaka, 2};
-	
+
 	p3.take_card(City::Osaka)
 	.take_card(City::Seoul)
 	.take_card(City::Taipei)
 	.take_card(City::Manila)
 	.take_card(City::Sydney);
-
-	p2.take_card(City::Osaka);
 	
-	p3.build();
-	p3.fly_direct(City::Sydney);
-	CHECK_THROWS(p3.discover_cure(Color::Red));
+	p3.build(); // build in osaka. drop osaka
+	p3.fly_direct(City::Sydney);  // drop sydney
+	p3.fly_direct(City::Taipei);  // drop taipei
+	CHECK_THROWS(p3.discover_cure(Color::Red)); // have just 2 red cards
 	p3.take_card(City::Sydney);
-	p3.build();
-	CHECK_NOTHROW(p3.discover_cure(Color::Red));
-	CHECK_NOTHROW(p2.discover_cure(Color::Red));
+	p3.take_card(City::Taipei);
+	p3.build(); // build in taipei. drop taipei
+	CHECK_NOTHROW(p3.discover_cure(Color::Red)); // now have 3 red cards
+
 	cout<<endl;
 	cout<<"end scenario 2"<<endl;
 	cout<<endl;
@@ -128,15 +141,15 @@ TEST_CASE("game scenario 2: Scientist"){ // check only his inheribate function
 
 TEST_CASE("game scenario 3: Researcher"){
 	Board board3;
-	Researcher p {board3, City::Mumbai};
+	Researcher p {board3, City::Mumbai}; // start in mumbai
 	p.take_card(City::Mumbai)
 	.take_card(City::Tehran)
 	.take_card(City::Moscow)
 	.take_card(City::Istanbul);
-	CHECK_THROWS(p.discover_cure(Color::Black));
-	CHECK_THROWS(p.discover_cure(Color::Blue));
-	p.take_card(City::Cairo);
-	CHECK_NOTHROW(p.discover_cure(Color::Black));
+	CHECK_THROWS(p.discover_cure(Color::Black)); // need 5 black cards- have 4
+	CHECK_THROWS(p.discover_cure(Color::Blue)); // need 5 blue cards- have 0
+	p.take_card(City::Cairo); // 5 black cards
+	CHECK_NOTHROW(p.discover_cure(Color::Black)); // cairo have no station but reasearcher can discover cure
 	cout<<endl;
 	cout<<"end scenario 3"<<endl;
 	cout<<endl;
@@ -166,33 +179,30 @@ TEST_CASE("game scenario 4: Medic"){
 	p.take_card(StPetersburg);
 
 	p.drive(StPetersburg);
-	p.build();
+	p.build(); // build in StPetersburg. drop StPetersburg 
 	p.take_card(StPetersburg);
-	p.treat(StPetersburg);
+	p.treat(StPetersburg); // treat full StPetersburg
 	CHECK(board4[StPetersburg] == 0);
-	p.take_card(StPetersburg);
-	CHECK_THROWS(p.discover_cure(Blue));
+	CHECK_THROWS(p.discover_cure(Blue)); // have 4 cards- throw
+	p.take_card(Paris);
 	p.take_card(NewYork);
-	CHECK_NOTHROW(p.discover_cure(Blue));
+	CHECK_NOTHROW(p.discover_cure(Blue)); // good- have 5 cards
 	p.drive(Essen);
-	CHECK(board4[Essen] == 0);
+	CHECK(board4[Essen] == 0); // arrive to blue city with blue cure
 	p.take_card(NewYork);
-	p.fly_direct(NewYork);
-	CHECK(board4[NewYork] == 0);
+	p.fly_direct(NewYork); // drop new york
+	CHECK(board4[NewYork] == 0); // arrive to blue city with blue cure
 	p.take_card(NewYork);
 	p.fly_charter(Madrid);
-	CHECK(board4[Madrid] == 0);
+	CHECK(board4[Madrid] == 0); // arrive to blue city with blue cure
 	p.take_card(Madrid);
-	p.build();
+	p.build(); // build in madrid
 	p.fly_shuttle(StPetersburg);
-	CHECK(board4[StPetersburg] == 0);
+	CHECK(board4[StPetersburg] == 0); // arrive to blue city with blue cure
 	p.fly_direct(Algiers);
-	CHECK(board4[Algiers] == 4);
-	p.take_card(Algiers);
-	p.build();
-	p.take_card(Algiers);
+	CHECK(board4[Algiers] == 4); // arrive to black city with blue cure noting happen
 	p.treat(Algiers);
-	CHECK(board4[Algiers] == 0);
+	CHECK(board4[Algiers] == 0); // medic treat --> 0
 	cout<<endl;
 	cout<<"end scenario 4"<<endl;
 	cout<<endl;
