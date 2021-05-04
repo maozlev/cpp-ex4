@@ -38,9 +38,9 @@ namespace pandemic{
         while(t < this->cards_of_player.size()){
             if(this->cards_of_player.at(t) == city){
                 this->currennt_city = city;
+                cout<<"fly to: "+st<<endl;
                 this->cards_of_player.erase(this->cards_of_player.begin() + t);
                 this->current_board.cards.at(city) = false;
-                cout<<"fly to: "+st<<endl;
                 cout<<"drop: "+st<<endl;
                 return *this;
             }
@@ -154,8 +154,7 @@ namespace pandemic{
                 throw logic_error{st+" is already clear"};
             }
             if(current_board.cure.at(current_board.colors.at(city))){
-                // this->current_board[city] = 0;
-                this->current_board.infection_level.at(city) = 0;
+                this->current_board[city] = 0;
                 cout<<"update infection level: "<<
                 current_board[city]<<
                 " at: "<<st<<endl;

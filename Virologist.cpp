@@ -12,11 +12,11 @@ namespace pandemic{
 
     Player& Virologist::treat(City city){
         string st = ToString(city);
-        if(currennt_city == city){
+        Color c = current_board.colors.at(city);
             if(current_board.infection_level.at(city) <= 0){
                 throw logic_error{st+" is already clear"};
             }
-            if(current_board.research_lab.at(city)){
+            if(current_board.research_lab.at(city) || current_board.cure.at(c)){
                 current_board[city] = 0;
                 cout<<"update infection level: "<<
                 current_board[city]<<
@@ -30,9 +30,6 @@ namespace pandemic{
             " at: "<<st<<endl;
             return *this;
         }
-        cout<<"go to the city: "<<st<<endl;
-        return *this;
-    }
     
 }
 

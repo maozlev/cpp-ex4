@@ -12,27 +12,27 @@ namespace pandemic{
 
     Player& FieldDoctor::treat(City city){
         string st = ToString(city);
-        if(currennt_city == city){
-            if(current_board.infection_level.at(city) <= 0){
-                throw logic_error{st+" is already clear"};
-            }
-            if(current_board.research_lab.at(city)){
-                current_board[city] = 0;
+        City this_city = this->currennt_city;
+        Color color = current_board.colors[city];
+        if(this->current_board.is_neighbors(this_city, city)
+           &&this->current_board.cure[color]){
+            current_board[city] = 0;
                 cout<<"update infection level: "<<
                 current_board[city]<<
                 " at: "<<st<<endl;
-                cout<<st<<" is clear"<<endl;
-                return *this;
-            }
-            current_board[city]--;
-            cout<<"update infection level: "<<
-            current_board[city]<<
-            " at: "<<st<<endl;
             return *this;
         }
-        cout<<"go to the city: "<<st<<endl;
+        if(this->current_board.is_neighbors(this_city, city)){
+            current_board[city] --;
+                cout<<"update infection level: "<<
+                current_board[city]<<
+                " at: "<<st<<endl;
+            return *this;
+        }
+        
+        Player::treat(city);
         return *this;
     }
+};
 
-}
 

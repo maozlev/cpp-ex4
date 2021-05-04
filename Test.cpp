@@ -204,7 +204,58 @@ TEST_CASE("game scenario 4: Medic"){
 
 TEST_CASE("game scenario 5: Virologist"){
 	Board board5;
-	Virologist p {board5, City::Mumbai};
+	Virologist p {board5, City::Seoul};
+
+	board5[StPetersburg] = 3;
+	board5[Algiers] = 5;
+	board5[Madrid] = 5;
+	board5[NewYork] = 2;
+	board5[Essen] = 7;
+	board5[Jakarta] = 7;
+	board5[Delhi] = 7;
+	board5[Kolkata] = 3;
+
+	CHECK(board5[StPetersburg] == 3);
+	CHECK(board5[Algiers] == 5);
+	CHECK(board5[Madrid] == 5);
+	CHECK(board5[NewYork] == 2);
+	CHECK(board5[Essen] == 7);
+	CHECK(board5[Jakarta] == 7);
+	CHECK(board5[Delhi] == 7);
+	CHECK(board5[Kolkata] == 3);
+
+	p.take_card(HongKong)
+	.take_card(Taipei)
+	.take_card(Bangkok)
+	.take_card(Beijing)
+	.take_card(Manila)
+	.take_card(Seoul)
+	.take_card(Delhi);
+
+	p.treat(StPetersburg);
+	CHECK(board5[StPetersburg] == 2);
+	p.treat(StPetersburg);
+	CHECK(board5[StPetersburg] == 1);
+	p.treat(StPetersburg);
+	CHECK(board5[StPetersburg] == 0);
+	CHECK_THROWS(p.treat(StPetersburg));
+	p.treat(Algiers);
+	CHECK(board5[Algiers] == 4);
+	CHECK_NOTHROW(p.build());
+	CHECK_NOTHROW(p.discover_cure(Red));
+	p.treat(Jakarta);
+	CHECK(board5[Jakarta] == 0);
+	CHECK_THROWS(p.treat(Jakarta));
+	p.fly_direct(Delhi);
+	p.take_card(Delhi);
+	p.build();
+	p.drive(Kolkata);
+	p.treat(Delhi);
+	CHECK(board5[Delhi] == 0);
+	p.drive(Bangkok);
+	p.treat(Kolkata);
+	CHECK(board5[Kolkata] == 2);
+
 	cout<<endl;
 	cout<<"end scenario 5"<<endl;
 	cout<<endl;
@@ -212,7 +263,81 @@ TEST_CASE("game scenario 5: Virologist"){
 
 TEST_CASE("game scenario 6: GeneSplicer"){
 	Board board6;
-	GeneSplicer p {board6, City::Mumbai};
+	GeneSplicer p {board6, City::Chicago};
+	board6[StPetersburg] = 3;
+	board6[Algiers] = 6;
+	board6[Jakarta] = 7;
+	board6[Johannesburg] = 3;
+
+	p.take_card(StPetersburg);
+	p.fly_direct(StPetersburg);
+	p.treat(StPetersburg);
+	CHECK(board6[StPetersburg] == 2);
+	p.take_card(Algiers);
+	p.fly_direct(Algiers);
+	p.treat(Algiers);
+	CHECK(board6[Algiers] == 5);
+	p.take_card(Jakarta);
+	p.fly_direct(Jakarta);
+	p.treat(Jakarta);
+	CHECK(board6[Jakarta] == 6);
+	p.take_card(Johannesburg);
+	p.fly_direct(Johannesburg);
+	p.treat(Johannesburg);
+	CHECK(board6[Johannesburg] == 2);
+	p.take_card(Johannesburg);
+
+	p.take_card(LosAngeles)
+	.take_card(Taipei)
+	.take_card(Bangkok)
+	.take_card(Beijing)
+	.take_card(Manila)
+	.take_card(Chicago);
+	p.build();
+	CHECK_NOTHROW(p.discover_cure(Black));
+	CHECK_THROWS(p.discover_cure(Red));
+	p.take_card(London)
+	.take_card(Taipei)
+	.take_card(Bangkok)
+	.take_card(Bogota)
+	.take_card(Manila);
+	CHECK_NOTHROW(p.discover_cure(Yellow));
+	CHECK_THROWS(p.discover_cure(Blue));
+	p.take_card(HongKong)
+	.take_card(BuenosAires)
+	.take_card(Essen)
+	.take_card(Beijing)
+	.take_card(Manila);
+	CHECK_NOTHROW(p.discover_cure(Blue));
+	CHECK_THROWS(p.discover_cure(Red));
+	p.take_card(HongKong)
+	.take_card(London)
+	.take_card(Algiers)
+	.take_card(Beijing)
+	.take_card(Manila);
+	CHECK_NOTHROW(p.discover_cure(Red));
+	CHECK_NOTHROW(p.discover_cure(Blue));
+	CHECK_NOTHROW(p.discover_cure(Black));
+	CHECK_NOTHROW(p.discover_cure(Yellow));
+	CHECK_NOTHROW(p.discover_cure(Red));
+
+	p.take_card(StPetersburg);
+	p.fly_direct(StPetersburg);
+	p.treat(StPetersburg);
+	CHECK(board6[StPetersburg] == 0);
+	p.take_card(Algiers);
+	p.fly_direct(Algiers);
+	p.treat(Algiers);
+	CHECK(board6[Algiers] == 0);
+	p.take_card(Jakarta);
+	p.fly_direct(Jakarta);
+	p.treat(Jakarta);
+	CHECK(board6[Jakarta] == 0);
+	p.take_card(Johannesburg);
+	p.fly_direct(Johannesburg);
+	p.treat(Johannesburg);
+	CHECK(board6[Johannesburg] == 0);
+	
 	cout<<endl;
 	cout<<"end scenario 6"<<endl;
 	cout<<endl;
@@ -221,6 +346,40 @@ TEST_CASE("game scenario 6: GeneSplicer"){
 TEST_CASE("game scenario 7: FieldDoctor"){
 	Board board7;
 	FieldDoctor p {board7, City::Mumbai};
+
+	board7[Delhi] = 3;
+	board7[Karachi] = 7;
+	board7[Chennai] = 7;
+	board7[Riyadh] = 3;
+	board7[Baghdad] = 3;
+	board7[Mumbai] = 3;
+
+	p.treat(Delhi);
+	p.treat(Karachi);
+	p.treat(Chennai);
+	p.treat(Mumbai);
+	
+	CHECK(board7[Delhi] == 2);
+	CHECK(board7[Karachi] == 6);
+	CHECK(board7[Chennai] == 6);
+	CHECK(board7[Mumbai] == 2);
+
+	p.take_card(Algiers);
+	p.take_card(Cairo);
+	p.take_card(Istanbul);
+	p.take_card(Moscow);
+	p.take_card(Tehran);
+	p.take_card(Mumbai);
+	p.build();
+	p.discover_cure(Black);
+	p.drive(Karachi);
+	p.treat(Baghdad);
+	p.treat(Riyadh);
+	CHECK(board7[Baghdad] == 0);
+	CHECK(board7[Riyadh] == 0);
+	p.treat(Mumbai);
+	CHECK(board7[Mumbai] == 0);
+
 	cout<<endl;
 	cout<<"end scenario 7"<<endl;
 	cout<<endl;

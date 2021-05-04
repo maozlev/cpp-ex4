@@ -81,7 +81,7 @@ inline const char* ToString(City n){
     case Chicago:
         return "Chicago";
     case Delhi:
-        return "Baghdad";
+        return "Delhi";
     case Essen:
         return "Essen";
     case HoChiMinhCity:
