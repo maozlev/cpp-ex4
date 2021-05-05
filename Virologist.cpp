@@ -12,6 +12,9 @@ namespace pandemic{
 
     Player& Virologist::treat(City city){
         string st = ToString(city);
+        if(city == currennt_city){
+            return Player::treat(city);
+        }
         if(!current_board.cards[city]){
             throw invalid_argument{"no have card of "+st};
         }
@@ -21,16 +24,16 @@ namespace pandemic{
             }
             if(current_board.cure.at(c)){
                 current_board[city] = 0;
-                cout<<"update infection level: "<<
-                current_board[city]<<
-                " at: "<<st<<endl;
-                cout<<st<<" is clear"<<endl;
+                // cout<<"update infection level: "<<
+                // current_board[city]<<
+                // " at: "<<st<<endl;
+                // cout<<st<<" is clear"<<endl;
 
             }else{
                 current_board[city]--;
-                cout<<"update infection level: "<<
-                current_board[city]<<
-                " at: "<<st<<endl;
+                // cout<<"update infection level: "<<
+                // current_board[city]<<
+                // " at: "<<st<<endl;
             }
             current_board.cards[city] = false;
             unsigned int t = 0;

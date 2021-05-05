@@ -35,7 +35,7 @@ namespace pandemic{
             this->current_board.cure.at(color) = true;
             cout<<"drop: "<<sum<<" cards"<<endl;
         }
-        cout<<"discoverd: "<<c<<" cure!"<<endl;
+        // cout<<"discoverd: "<<c<<" cure!"<<endl;
         return *this;
     }
 

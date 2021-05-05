@@ -112,4 +112,3 @@ int main() {
 		check_cure_discovery(board, player);  // should print: false ***true*** ***true*** false true  [can find a cure with only 4 red cards]
 	}
 }
-

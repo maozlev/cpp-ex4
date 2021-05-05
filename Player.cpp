@@ -23,7 +23,7 @@ namespace pandemic{
         string st = ToString(city);
         if(this->current_board.is_neighbors(this->currennt_city, city)){
             this->currennt_city = city;
-            cout<<"moving to: "+st<<endl;
+            // cout<<"moving to: "+st<<endl;
             return *this;
         }
         throw std::logic_error{st+" is not connected"};
@@ -38,10 +38,10 @@ namespace pandemic{
         while(t < this->cards_of_player.size()){
             if(this->cards_of_player.at(t) == city){
                 this->currennt_city = city;
-                cout<<"fly to: "+st<<endl;
+                // cout<<"fly to: "+st<<endl;
                 this->cards_of_player.erase(this->cards_of_player.begin() + t);
                 this->current_board.cards.at(city) = false;
-                cout<<"drop: "+st<<endl;
+                // cout<<"drop: "+st<<endl;
                 return *this;
             }
             t++;
@@ -62,8 +62,8 @@ namespace pandemic{
                 this->currennt_city = city;
                 this->cards_of_player.erase(this->cards_of_player.begin() + t);
                 this->current_board.cards.at(need_to_drop) = false;
-                cout<<"fly to: "+st<<endl;
-                cout<<"drop: "+st1<<endl;
+                // cout<<"fly to: "+st<<endl;
+                // cout<<"drop: "+st1<<endl;
                 return *this;
             }
             t++;
@@ -76,7 +76,7 @@ namespace pandemic{
         string st1 = ToString(this->currennt_city);
         if(this->current_board.research_lab.at(city) &&
            this->current_board.research_lab.at(this->currennt_city)){
-               cout<<"fly from: "<<st1<<"to "<<st<<endl;
+            //    cout<<"fly from: "<<st1<<"to "<<st<<endl;
                this->currennt_city = city;
                return *this;
         }
@@ -93,7 +93,7 @@ namespace pandemic{
         City city = this->currennt_city;
         string st = ToString(city);
         if(this->current_board.research_lab.at(city)){
-            cout<<"you already have a lab in the city: "<<st<<endl;
+            // cout<<"you already have a lab in the city: "<<st<<endl;
             return *this;
         }
         if(this->cards_of_player.empty()){
@@ -106,8 +106,8 @@ namespace pandemic{
                 this->current_board.research_lab.at(city) = true;
                 this->current_board.cards.at(city) = false;
                 this->cards_of_player.erase(this->cards_of_player.begin() + t);
-                cout<<"built lab at: "+st<<endl;
-                cout<<"drop: "+st<<endl;
+                // cout<<"built lab at: "+st<<endl;
+                // cout<<"drop: "+st<<endl;
                 return *this;
             }
             t++;
@@ -141,9 +141,9 @@ namespace pandemic{
                 i++;
             }
             this->current_board.cure.at(color) = true;
-            cout<<"drop: "<<sum<<" cards"<<endl;
+            // cout<<"drop: "<<sum<<" cards"<<endl;
         }
-        cout<<"discoverd: "<<c<<" cure!"<<endl;
+        // cout<<"discoverd: "<<c<<" cure!"<<endl;
         return *this;
     }
 
@@ -155,19 +155,19 @@ namespace pandemic{
             }
             if(current_board.cure.at(current_board.colors.at(city))){
                 this->current_board[city] = 0;
-                cout<<"update infection level: "<<
-                current_board[city]<<
-                " at: "<<st<<endl;
-                cout<<st<<" is clear"<<endl;
+                // cout<<"update infection level: "<<
+                // current_board[city]<<
+                // " at: "<<st<<endl;
+                // cout<<st<<" is clear"<<endl;
                 return *this;
             }
             current_board[city]--;
-            cout<<"update infection level: "<<
-            current_board[city]<<
-            " at: "<<st<<endl;
+            // cout<<"update infection level: "<<
+            // current_board[city]<<
+            // " at: "<<st<<endl;
             return *this;
         }
-        cout<<"go to the city: "<<st<<endl;
+        // cout<<"go to the city: "<<st<<endl;
         return *this;
     }
 
@@ -175,12 +175,12 @@ namespace pandemic{
     Player& Player::take_card(City city){
         string st = ToString(city);
         if(this->current_board.card_in_game(city)){
-            cout<<st+" in the game already"<<endl;
+            // cout<<st+" in the game already"<<endl;
             return *this;
         }
         cards_of_player.insert(cards_of_player.begin(), 1, city);
         current_board.cards[city] = true;
-        cout<<"take card: "<<st<<endl;
+        // cout<<"take card: "<<st<<endl;
         return *this;
     }
 

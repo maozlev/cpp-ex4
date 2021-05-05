@@ -55,10 +55,10 @@ namespace pandemic{
                 throw logic_error{st+" is already clear"};
             }
             current_board[city] = 0;
-            cout<<"update infection level: "<<
-            current_board[city]<<
-            " at: "<<st<<endl;
-            cout<<st<<" is clear"<<endl;
+            // cout<<"update infection level: "<<
+            // current_board[city]<<
+            // " at: "<<st<<endl;
+            // cout<<st<<" is clear"<<endl;
             return *this;
         }
         throw std::invalid_argument{"go to the city: "+st};

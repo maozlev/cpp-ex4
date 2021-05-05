@@ -14,7 +14,7 @@ namespace pandemic{
         string st = ToString(city);
         if(this->current_board.research_lab.at(this->currennt_city)){
             this->currennt_city = city;
-            cout<<"fly direct to "<<st<<endl;
+            // cout<<"fly direct to "<<st<<endl;
             return *this;
         }
         //else he need to pay like anyone else
