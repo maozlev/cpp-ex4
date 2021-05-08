@@ -12,13 +12,13 @@ namespace pandemic{
     Player& GeneSplicer::discover_cure(Color color){
         string st = ToString(this->currennt_city);
         string c = ToString(color);
+        int num_of_card = cards_of_player.size();
+        if(num_of_card < min_card_to_cure){
+            throw invalid_argument{"you dont have enough "+c+" cards"};
+        }
         if(!this->current_board.cure.at(color)){
             if(!this->current_board.research_lab.at(this->currennt_city)){
-                throw logic_error{st+" have no lab!"};
-            }
-            int num_of_card = cards_of_player.size();
-            if(num_of_card < min_card_to_cure){
-                throw logic_error{"you dont have enough "+c+" cards"};
+                throw invalid_argument{st+" have no lab!"};
             }
             int sum=0;
             unsigned int i = 0;
@@ -33,7 +33,7 @@ namespace pandemic{
                 i++;
             }
             this->current_board.cure.at(color) = true;
-            cout<<"drop: "<<sum<<" cards"<<endl;
+            // cout<<"drop: "<<sum<<" cards"<<endl;
         }
         // cout<<"discoverd: "<<c<<" cure!"<<endl;
         return *this;

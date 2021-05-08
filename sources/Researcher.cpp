@@ -16,7 +16,7 @@ namespace pandemic{
         if(!this->current_board.cure.at(color)){
             int num_of_color_card = get_num_of_color(color);
             if(num_of_color_card<min_card_to_cure){
-                throw logic_error{"you dont have enough "+c+" cards"};
+                throw invalid_argument{"you dont have enough "+c+" cards"};
             }
             int sum=0;
             unsigned int i = 0;

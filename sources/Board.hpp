@@ -21,13 +21,7 @@ namespace pandemic{
         std::map <City , bool> research_lab;
         std::map <Color , bool> cure;
 
-
-
         Board();
-        
-        
-
-        // ~Board();
 
         int& operator[] (const City city);
         friend std::ostream& operator<< (std::ostream& os, const Board& a);
@@ -35,6 +29,7 @@ namespace pandemic{
         bool is_neighbors(City a, City b);
         bool card_in_game(City a);
         void remove_cures();
+        void remove_stations();
 
 
     };

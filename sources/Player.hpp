@@ -37,6 +37,9 @@ namespace pandemic{
             std::string city = ToString(Player::currennt_city);
             return "Player";
         }
+        void remove_cards(){
+            cards_of_player.clear();
+        }
 
             
         

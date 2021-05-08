@@ -15,7 +15,7 @@ namespace pandemic{
         Player& fly_direct(City city) override;
         std::string role() override{
             std::string city = ToString(Player::currennt_city);
-            return "Dispatcher. and locate at: "+city;
+            return "Dispatcher";
         }
     };
 

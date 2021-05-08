@@ -15,11 +15,11 @@ namespace pandemic{
         string c = ToString(color);
         if(!this->current_board.cure.at(color)){
             if(!this->current_board.research_lab.at(this->currennt_city)){
-                throw logic_error{st+" have no lab!"};
+                throw invalid_argument{st+" have no lab!"};
             }
             int num_of_color_card = get_num_of_color(color);
             if(num_of_color_card < Scientist::n){
-                throw logic_error{"you not have enoght "+c+" cards"};
+                throw invalid_argument{"you not have enoght "+c+" cards"};
             }
             int sum=0;
             unsigned int i = 0;
