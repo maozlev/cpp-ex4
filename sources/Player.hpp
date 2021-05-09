@@ -19,7 +19,7 @@ namespace pandemic{
         Board& current_board;
 
         Player(Board& board, City city);
-        // ~Player(){}
+       
 
         virtual Player& drive(City city);
         virtual Player& fly_direct(City city);
